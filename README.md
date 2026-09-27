@@ -94,11 +94,28 @@ python main.py
 
 ## 📸 Preview
 
-![Dashboard View](assets/1.png)
-![Recommendation Interface](assets/2.png)
+### Modern AI Recommender Interface
+![Hero Dashboard](assets/Screenshot%202026-09-27%20160239.png)
 
+### Real-Time New & Trending Releases
+![New & Trending Releases](assets/Screenshot%202026-09-27%20160253.png)
 
-The Flask backend provides fast, connection-pooled REST API endpoints:
+### Interactive Cards with "View Info" and "Similar"
+![Movie Cards with View Info & Similar Buttons](assets/Screenshot%202026-09-27%20160332.png)
+
+### Multi-Source Ratings & Details Modal
+![Multi-Source Ratings & Movie Details Modal](assets/Screenshot%202026-09-27%20160359.png)
+
+### Official YouTube Trailer Integration
+![Embedded Official YouTube Trailer](assets/Screenshot%202026-09-27%20160409.png)
+
+### Personalized AI Vector Recommendations
+![Personalized AI Recommendations](assets/Screenshot%202026-09-27%20160438.png)
+
+---
+
+## ⚡ REST API Endpoints
+
 
 | Endpoint | Method | Params | Description |
 | :--- | :--- | :--- | :--- |
