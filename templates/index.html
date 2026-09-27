@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineMatch — AI Movie Recommendations</title>
+    <meta name="description" content="AI analysis for real-time movie recommendations using machine learning similarity matching.">
+
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- FontAwesome 6 for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/static/css/styles.css">
+</head>
+<body>
+
+    <!-- Ambient Gradient Canvas -->
+    <canvas id="particles-canvas"></canvas>
+
+    <!-- Master App Frame (The rounded canvas from the design) -->
+    <div class="app-frame" id="appFrame">
+        
+        <!-- Top Navigation Bar -->
+        <header class="navbar" id="navbar">
+            <div class="nav-left">
+                <a href="#hero" class="brand-logo" id="navLogo">
+                    <div class="logo-squircle">
+                        <i class="fa-solid fa-film"></i>
+                    </div>
+                    <span class="brand-text">Cine<span>Match</span></span>
+                </a>
+            </div>
+
+            <nav class="nav-center">
+                <ul class="nav-links">
+                    <li><a href="#hero" class="nav-link active">Home</a></li>
+                    <li><a href="#recommendations" class="nav-link">Recommendations</a></li>
+                    <li><a href="#newReleases" class="nav-link">New Releases</a></li>
+                    <li><a href="#categories" class="nav-link">Genres</a></li>
+                    <li><a href="#browse" class="nav-link">Browse Library</a></li>
+                </ul>
+            </nav>
+
+            <div class="nav-right">
+                <button class="nav-circle-btn" id="quickExploreBtn" title="Random Movie Match" aria-label="Random Movie">
+                    <i class="fa-solid fa-shuffle"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content Area -->
+        <main>
+            
+            <!-- Hero Section -->
+            <section class="hero-section" id="hero">
+                <div class="hero-grid">
+                    
+                    <!-- Left Column: Title, Subtitle, Search, Trending -->
+                    <div class="hero-left-col">
+                        <h1 class="hero-main-title">
+                            <span class="gradient-text">AI analysis</span><br>
+                            for real-time<br>
+                            recommendations
+                        </h1>
+
+                        <p class="hero-description">
+                            Discover films tailored to your taste with instant cosine similarity matching across 9,700+ titles.
+                        </p>
+
+                        <!-- Clean Integrated Search Bar -->
+                        <div class="hero-search-wrapper">
+                            <div class="search-box">
+                                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                                <input type="text" id="searchInput" placeholder="Search a movie (e.g. Inception, Interstellar...)" autocomplete="off">
+                                <button id="searchBtn" class="search-btn">
+                                    <span>Get Matches</span>
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                            <!-- Autocomplete Dropdown -->
+                            <div id="autocompleteResults" class="autocomplete-dropdown hidden"></div>
+                        </div>
+
+                        <!-- Quick Trending Suggestions -->
+                        <div class="quick-tags-wrapper">
+                            <span class="quick-tags-label">Popular:</span>
+                            <div class="quick-tags-list" id="quickTags">
+                                <button class="quick-tag" data-movie="Inception (2010)">Inception</button>
+                                <button class="quick-tag" data-movie="Interstellar (2014)">Interstellar</button>
+                                <button class="quick-tag" data-movie="Matrix, The (1999)">The Matrix</button>
+                                <button class="quick-tag" data-movie="Toy Story (1995)">Toy Story</button>
+                                <button class="quick-tag" data-movie="Pulp Fiction (1994)">Pulp Fiction</button>
+                            </div>
+                        </div>
+
+                        <!-- Minimal Feature Bullets -->
+                        <div class="hero-feature-bullets">
+                            <span>• 9,700+ Movies</span>
+                            <span>• TF-IDF Vectorization</span>
+                            <span>• 100% Free</span>
+                        </div>
+                    </div>
+
+                    <!-- Right Column: Clean Interactive AI Mockup Card -->
+                    <div class="hero-right-col">
+                        <div class="mockup-stage">
+                            
+                            <!-- Rating Pill (Top) -->
+                            <div class="floating-rating-pill">
+                                <div class="rating-pill-icon">
+                                    <i class="fa-solid fa-star"></i>
+                                </div>
+                                <div class="rating-pill-text">
+                                    <span class="rating-val">5.0 / 5.0</span>
+                                    <span class="rating-sub">ML Recommendation Engine</span>
+                                </div>
+                            </div>
+
+                            <!-- Central Clean Dark Mockup Card -->
+                            <div class="center-device-card" id="centerDeviceCard">
+                                
+                                <!-- Card Header -->
+                                <div class="device-header">
+                                    <div class="device-header-left">
+                                        <div class="device-dot-live"></div>
+                                        <span class="device-title">Live Vector Match</span>
+                                    </div>
+                                    <span class="device-badge-sci">Sci-Fi & Drama</span>
+                                </div>
+
+                                <!-- Animated Similarity Waveform -->
+                                <div class="waveform-container">
+                                    <div class="waveform-bars">
+                                        <span class="bar" style="--h: 35%; --d: 0.1s;"></span>
+                                        <span class="bar" style="--h: 65%; --d: 0.3s;"></span>
+                                        <span class="bar" style="--h: 85%; --d: 0.2s;"></span>
+                                        <span class="bar" style="--h: 45%; --d: 0.4s;"></span>
+                                        <span class="bar" style="--h: 95%; --d: 0.15s;"></span>
+                                        <span class="bar" style="--h: 70%; --d: 0.35s;"></span>
+                                        <span class="bar" style="--h: 55%; --d: 0.25s;"></span>
+                                        <span class="bar" style="--h: 90%; --d: 0.05s;"></span>
+                                        <span class="bar" style="--h: 100%; --d: 0.3s;"></span>
+                                        <span class="bar" style="--h: 60%; --d: 0.2s;"></span>
+                                        <span class="bar" style="--h: 40%; --d: 0.4s;"></span>
+                                        <span class="bar" style="--h: 80%; --d: 0.1s;"></span>
+                                        <span class="bar" style="--h: 50%; --d: 0.28s;"></span>
+                                        <span class="bar" style="--h: 90%; --d: 0.18s;"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Timer & Status Pill -->
+                                <div class="device-status-row">
+                                    <div class="device-timer">
+                                        <i class="fa-regular fa-clock"></i>
+                                        <span id="demoTimer">00:05:39</span>
+                                    </div>
+                                    <div class="analysing-pill">
+                                        <span class="sparkle-pink">✦</span>
+                                        <span>Analysing...</span>
+                                    </div>
+                                </div>
+
+                                <!-- Floating Clean Insight Card -->
+                                <div class="floating-insight-bubble" id="mockupInsightCard" title="Click to test Inception recommendations">
+                                    <div class="bubble-header">
+                                        <div class="bubble-avatar-icon">
+                                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                        </div>
+                                        <div class="bubble-user-info">
+                                            <span class="bubble-name">Top Match</span>
+                                            <span class="bubble-badge">98% Match</span>
+                                        </div>
+                                    </div>
+                                    <p class="bubble-text">
+                                        Because you liked <strong>Inception</strong>, our cosine vector model recommends <strong>The Matrix</strong> and <strong>Interstellar</strong>.
+                                    </p>
+                                </div>
+
+                                <!-- Quick Insight Tag -->
+                                <div class="device-footer-info">
+                                    <div class="device-similarity-metric">
+                                        <span>Similarity Score:</span>
+                                        <strong>0.984 Cosine</strong>
+                                    </div>
+                                    <button class="player-btn" id="mockupPlayPauseBtn" aria-label="Pause or play waveform animation">
+                                        <i class="fa-solid fa-pause"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Clean Tech Divider Strip -->
+            <section class="brand-ticker-section">
+                <div class="brand-logos-row">
+                    <div class="brand-logo-item">
+                        <i class="fa-solid fa-vector-square"></i>
+                        <span>TF-IDF</span>
+                    </div>
+                    <div class="brand-logo-item">
+                        <i class="fa-solid fa-circle-nodes"></i>
+                        <span>Cosine Similarity</span>
+                    </div>
+                    <div class="brand-logo-item">
+                        <i class="fa-solid fa-database"></i>
+                        <span>MovieLens 100K</span>
+                    </div>
+                    <div class="brand-logo-item">
+                        <i class="fa-solid fa-images"></i>
+                        <span>TMDB Artwork</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recommendation Results Section -->
+            <section class="recommendations-section hidden" id="recommendations">
+                <div class="section-header">
+                    <span class="section-tag"><i class="fa-solid fa-sparkles"></i> Results</span>
+                    <h2 class="section-title">Personalized Recommendations</h2>
+                    <p class="section-subtitle">Ranked by similarity across metadata tags, genres, and audience ratings.</p>
+                </div>
+                
+                <div class="recommendations-layout">
+                    <!-- Selected Input Movie Card (Left) -->
+                    <div class="selected-movie-col">
+                        <div class="col-header-pill">Your Input Selection</div>
+                        <div class="selected-movie-card-wrapper" id="selectedMovieCard">
+                            <!-- Populated dynamically by main.js -->
+                        </div>
+                    </div>
+                    
+                    <!-- Recommended Movies Grid (Right) -->
+                    <div class="recommendations-list-col">
+                        <div class="col-header-pill">Top Matching Movies</div>
+                        <div class="recommendations-grid" id="recommendationsGrid">
+                            <!-- Populated dynamically by main.js -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Live New Releases Section (Fetched from IMDb / TMDb) -->
+            <section class="new-releases-section" id="newReleases">
+                <div class="section-header">
+                    <span class="section-tag"><i class="fa-solid fa-fire"></i> In Theaters & Trending</span>
+                    <h2 class="section-title">New Releases</h2>
+                    <p class="section-subtitle">Live theatrical and trending films fetched dynamically from IMDb & TMDb.</p>
+                </div>
+                
+                <div class="movies-grid" id="newMoviesGrid">
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Categories / Genre Section -->
+            <section class="categories-section" id="categories">
+                <div class="section-header">
+                    <span class="section-tag"><i class="fa-solid fa-shapes"></i> Categories</span>
+                    <h2 class="section-title">Explore by Genre</h2>
+                </div>
+                
+                <!-- Genre Selector Pills -->
+                <div class="genre-tabs-container" id="genreTabs">
+                    <button class="genre-tab active" data-genre="all">All</button>
+                    <button class="genre-tab" data-genre="Action">Action</button>
+                    <button class="genre-tab" data-genre="Adventure">Adventure</button>
+                    <button class="genre-tab" data-genre="Animation">Animation</button>
+                    <button class="genre-tab" data-genre="Comedy">Comedy</button>
+                    <button class="genre-tab" data-genre="Drama">Drama</button>
+                    <button class="genre-tab" data-genre="Fantasy">Fantasy</button>
+                    <button class="genre-tab" data-genre="Horror">Horror</button>
+                    <button class="genre-tab" data-genre="Romance">Romance</button>
+                    <button class="genre-tab" data-genre="Sci-Fi">Sci-Fi</button>
+                    <button class="genre-tab" data-genre="Thriller">Thriller</button>
+                </div>
+                
+                <!-- Genre Movies Grid -->
+                <div class="movies-grid" id="genreMoviesGrid">
+                    <!-- Populated dynamically by main.js -->
+                    <div class="loading-spinner">
+                        <div class="spinner"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- General Browse Full Library Section -->
+            <section class="browse-section" id="browse">
+                <div class="section-header">
+                    <span class="section-tag"><i class="fa-solid fa-layer-group"></i> Library</span>
+                    <h2 class="section-title">Browse All Movies</h2>
+                </div>
+                
+                <div class="browse-controls-bar">
+                    <div class="total-count-badge" id="totalMoviesCount">
+                        Loading movies...
+                    </div>
+                    <div class="browse-search-wrapper">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="browseSearchInput" placeholder="Filter by title...">
+                    </div>
+                </div>
+                
+                <!-- Full Catalog Grid -->
+                <div class="movies-grid" id="browseMoviesGrid">
+                    <!-- Populated dynamically by main.js -->
+                </div>
+                
+                <!-- Load More Button -->
+                <div class="load-more-container">
+                    <button id="loadMoreBtn" class="btn-load-more">
+                        <span>Load More</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Clean Footer -->
+        <footer class="footer">
+            <div class="footer-inner">
+                <div class="footer-left">
+                    <span class="brand-text">Cine<span>Match</span></span>
+                    <p>AI-powered movie recommendation system.</p>
+                </div>
+                <div class="footer-right">
+                    <span>Powered by Scikit-Learn, TMDB & Flask</span>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Quick Movie Detail Modal -->
+    <div class="modal-overlay hidden" id="movieModal">
+        <div class="modal-card">
+            <button class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="modal-content-grid" id="modalContent">
+                <!-- Dynamically populated -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Script -->
+    <script src="/static/js/main.js"></script>
+</body>
+</html>
