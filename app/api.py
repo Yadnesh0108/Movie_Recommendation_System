@@ -64,8 +64,24 @@ if recommender.final_df is not None:
     TITLE_TO_IMDB = recommender.final_df.dropna(subset=["imdbId"]).set_index("normalized_title")["imdbId"].to_dict()
     TITLE_TO_TMDB = recommender.final_df.dropna(subset=["tmdbId"]).set_index("normalized_title")["tmdbId"].to_dict()
 
-# In-memory caches — avoids repeat external lookups
+# Persistent poster cache — eliminates repeat external TMDb network lookups on launch
+POSTER_CACHE_FILE = os.path.join(ROOT_DIR, "data", "poster_cache.json")
 POSTER_CACHE: dict = {}
+if os.path.exists(POSTER_CACHE_FILE):
+    try:
+        with open(POSTER_CACHE_FILE, "r", encoding="utf-8") as _f:
+            POSTER_CACHE = json.load(_f)
+    except Exception:
+        POSTER_CACHE = {}
+
+def save_poster_cache():
+    try:
+        with open(POSTER_CACHE_FILE, "w", encoding="utf-8") as _f:
+            json.dump(POSTER_CACHE, _f)
+    except Exception:
+        pass
+
+# In-memory caches — avoids repeat external lookups
 META_CACHE: dict = {}
 LATEST_CACHE: dict = {}
 STREAMING_CACHE: dict = {}
@@ -97,7 +113,7 @@ http_session.headers.update({
 
 @app.route("/")
 def home():
-    """Serve the CineMatch single-page frontend."""
+    """Serve the MovieMatcher single-page frontend."""
     if os.path.exists(os.path.join(template_dir, "index.html")):
         return render_template("index.html")
     return jsonify({"message": "API running — frontend index.html not found."})
@@ -222,6 +238,8 @@ def get_movie_poster():
         poster_url = FALLBACK_POSTER
 
     POSTER_CACHE[clean] = poster_url
+    POSTER_CACHE[movie] = poster_url
+    save_poster_cache()
     resp = redirect(poster_url, code=302)
     resp.headers["Cache-Control"] = "public, max-age=604800, immutable"
     return resp
@@ -662,44 +680,5 @@ def get_imdb_random():
 
 
 # ===========================================================================
-# LEGACY ENDPOINTS  (backward-compatible CLI / script support)
-# ===========================================================================
-
-@app.route("/recommend", methods=["GET"])
-def recommend_legacy():
-    movie = request.args.get("movie", "").strip()
-    top_n = request.args.get("top_n", default=5, type=int)
-
-    if not movie:
-        return jsonify({"error": "Provide a movie name using ?movie="}), 400
-
-    recommendations = recommender.recommend_movies(movie, top_n=top_n)
-
-    if not recommendations:
-        for suggestion in recommender.search_movies(movie):
-            bare = re.sub(r"\s*\(\d{4}\)\s*$", "", suggestion).strip().lower()
-            if bare == movie.lower():
-                movie = suggestion
-                recommendations = recommender.recommend_movies(movie, top_n=top_n)
-                break
-
-    if not recommendations:
-        return jsonify({
-            "error":       "Movie not found",
-            "suggestions": recommender.search_movies(movie),
-        }), 404
-
-    return jsonify({"input_movie": movie, "recommendations": recommendations})
-
-
-@app.route("/search", methods=["GET"])
-def search_legacy():
-    keyword = request.args.get("q", "")
-    if not keyword:
-        return jsonify({"error": "Provide a search keyword using ?q="}), 400
-    return jsonify({"query": keyword, "results": recommender.search_movies(keyword)})
-
-
-# ===========================================================================
 if __name__ == "__main__":
-    app.run(debug=True, threaded=True, port=5000)
+    app.run(host="127.0.0.1", port=5000, debug=False, use_reloader=False, threaded=True)

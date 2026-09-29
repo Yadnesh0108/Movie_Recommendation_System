@@ -1,5 +1,5 @@
 /* ==========================================================================
-   CINEMATCH — CLEAN AI UI/UX DESIGN SYSTEM
+   MOVIEMATCHER — CLEAN AI UI/UX DESIGN SYSTEM
    Modern, uncluttered, high-contrast interface
    ========================================================================== */
 
@@ -130,41 +130,118 @@ body {
     z-index: 100;
 }
 
-.nav-left .brand-logo {
-    display: flex;
+.nav-left .brand-logo,
+.footer-left .brand-logo {
+    display: inline-flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.8rem;
     text-decoration: none;
-}
-
-.logo-squircle {
-    width: 40px;
-    height: 40px;
-    background: #000000;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #ffffff;
-    font-size: 1.1rem;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
     transition: var(--transition);
 }
 
-.brand-logo:hover .logo-squircle {
+.logo-squircle {
+    width: 44px;
+    height: 44px;
+    background: #030712;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 18px -2px rgba(14, 165, 233, 0.45), 
+                0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.brand-logo-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    border-radius: 12px;
+    transition: var(--transition);
+}
+
+.brand-logo:hover .brand-logo-img {
     transform: scale(1.05);
 }
 
-.brand-text {
-    font-size: 1.3rem;
-    font-weight: 800;
-    letter-spacing: -0.02em;
-    color: var(--text-primary);
+.brand-logo:hover .logo-squircle {
+    transform: translateY(-2px) scale(1.08) rotate(-2deg);
+    box-shadow: 0 10px 24px -2px rgba(249, 115, 22, 0.55), 
+                0 0 0 1.5px rgba(255, 255, 255, 0.45) inset;
 }
 
+.logo-squircle.small {
+    width: 36px;
+    height: 36px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px -2px rgba(14, 165, 233, 0.35);
+}
+
+.logo-squircle.small .brand-logo-img {
+    border-radius: 9px;
+}
+
+.brand-text {
+    font-size: 1.38rem;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    color: var(--text-primary);
+    display: inline-flex;
+    align-items: baseline;
+    line-height: 1;
+}
+
+.brand-text .brand-highlight,
 .brand-text span {
+    background: linear-gradient(135deg, #0284c7 0%, #7c3aed 50%, #f97316 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    margin-left: 1px;
+    letter-spacing: -0.02em;
+    transition: var(--transition);
+}
+
+.brand-logo:hover .brand-text .brand-highlight,
+.brand-logo:hover .brand-text span {
+    filter: brightness(1.15) contrast(1.05);
+}
+
+.brand-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radius-full);
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.1) 0%, rgba(236, 72, 153, 0.12) 100%);
     color: var(--accent-violet);
-    font-weight: 700;
+    border: 1px solid rgba(124, 58, 237, 0.22);
+    box-shadow: 0 2px 8px rgba(124, 58, 237, 0.08);
+    transition: var(--transition);
+    user-select: none;
+    line-height: 1.2;
+}
+
+.brand-badge i {
+    font-size: 0.55rem;
+    color: #ec4899;
+}
+
+.brand-logo:hover .brand-badge {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.18) 0%, rgba(236, 72, 153, 0.2) 100%);
+    border-color: rgba(124, 58, 237, 0.4);
+    transform: translateY(-1px);
 }
 
 .nav-center .nav-links {
@@ -1296,7 +1373,7 @@ body {
 .footer-left p {
     font-size: 0.82rem;
     color: var(--text-secondary);
-    margin-top: 0.2rem;
+    margin-top: 0.45rem;
 }
 
 .footer-right {

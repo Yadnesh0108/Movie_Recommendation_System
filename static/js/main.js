@@ -1,5 +1,5 @@
 /**
- * CineMatch - Modern AI Recommender Frontend Script
+ * MovieMatcher - Modern AI Recommender Frontend Script
  * Handles real-time recommendations, interactive device mockup, autocomplete,
  * dynamic poster loading, genre filtering, and full library browsing.
  */

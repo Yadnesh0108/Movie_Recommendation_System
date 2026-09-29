@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineMatch — AI Movie Recommendations</title>
-    <meta name="description" content="AI analysis for real-time movie recommendations using machine learning similarity matching.">
+    <title>MovieMatcher — AI Movie Recommendations</title>
+    <meta name="description" content="MovieMatcher uses AI & machine learning similarity matching for real-time personalized movie recommendations.">
 
     <!-- Google Fonts: Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +16,9 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/static/css/styles.css">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/static/img/favicon.png">
 </head>
 <body>
 
@@ -30,9 +33,10 @@
             <div class="nav-left">
                 <a href="#hero" class="brand-logo" id="navLogo">
                     <div class="logo-squircle">
-                        <i class="fa-solid fa-film"></i>
+                        <img src="/static/img/logo-icon.png" alt="MovieMatcher Logo" class="brand-logo-img">
                     </div>
-                    <span class="brand-text">Cine<span>Match</span></span>
+                    <span class="brand-text">Movie<span class="brand-highlight">Matcher</span></span>
+                    <span class="brand-badge"><i class="fa-solid fa-sparkles"></i> AI</span>
                 </a>
             </div>
 
@@ -331,8 +335,14 @@
         <footer class="footer">
             <div class="footer-inner">
                 <div class="footer-left">
-                    <span class="brand-text">Cine<span>Match</span></span>
-                    <p>AI-powered movie recommendation system.</p>
+                    <a href="#hero" class="brand-logo footer-logo">
+                        <div class="logo-squircle small">
+                            <img src="/static/img/logo-icon.png" alt="MovieMatcher Logo" class="brand-logo-img">
+                        </div>
+                        <span class="brand-text">Movie<span class="brand-highlight">Matcher</span></span>
+                        <span class="brand-badge"><i class="fa-solid fa-sparkles"></i> AI</span>
+                    </a>
+                    <p>Next-gen movie recommendation engine powered by machine learning.</p>
                 </div>
                 <div class="footer-right">
                     <span>Powered by Scikit-Learn, TMDB & Flask</span>
